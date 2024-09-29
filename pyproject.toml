@@ -1,0 +1,59 @@
+[build-system]
+
+requires = ["setuptools>=42", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.ruff]
+
+line-length = 120
+indent-width = 4
+
+[tool.ruff.lint]
+
+# Enable Pyflakes (`F`) and a subset of the pycodestyle (`E`)  codes by default.
+# Unlike Flake8, Ruff doesn't enable pycodestyle warnings (`W`) or
+# McCabe complexity (`C901`) by default.
+select = [
+  "I", # Sorting imports
+  "E2", # whitespace rules
+  "E4", # import rules
+  "E7", # statement rules
+  "E9", # runtime rules
+  "F", # Pyflakes: source file errors, unsued variables.
+]
+
+ignore = [
+  "E201", # whitespace after '('
+  "E202", # whitespace before ')'
+  "E211", # whitespace before '('
+  "E203", # Whitespace before ':'
+  "F401", # Remove unused imports
+  #"E501", # line too long
+  #"W504", # line break after binary operator
+]
+
+# Allow fix for all enabled rules (when `--fix`) is provided.
+fixable = ["ALL"]
+unfixable = []
+
+[tool.ruff.format]
+
+# Like Black, use double quotes for strings.
+quote-style = "double"
+
+# Like Black, indent with spaces, rather than tabs.
+indent-style = "space"
+
+# This is currently disabled by default, but it is planned for this to be opt-out in the future.
+docstring-code-format = false
+
+# Set the line length limit used when formatting code snippets in docstrings.
+# This only has an effect when the `docstring-code-format` setting is enabled.
+docstring-code-line-length = "dynamic"
+
+
+[tool.pytest.ini_options]
+# See https://stackoverflow.com/questions/10253826/path-issue-with-pytest-importerror-no-module-named-yadayadayada
+pythonpath = [ 
+  "."
+]
