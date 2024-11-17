@@ -9,21 +9,18 @@ intervals ([start:end]) such as found in VCF format, GTF/GFF format, or FASTA in
 while you might be manipulating 0-based open-end coordinates ([start:end)) as found in BED format.
 """
 
-from typing import Mapping, Union, Any
-from typing_extensions import Self
 import os
+from abc import ABC, abstractmethod
+from enum import Enum
+from typing import Any, Dict, Mapping, Union
 
+import Bio.Seq
 import numpy as np
 import pandas as pd
-import pyfaidx
-
 import py2bit
-import Bio.Seq
+import pyfaidx
 from Bio.SeqRecord import SeqRecord
-
-from abc import ABC, abstractmethod
-
-from enum import Enum
+from typing_extensions import Self
 
 
 class Offset(Enum):
@@ -181,7 +178,7 @@ class IndexedSequencesQuerier:
 
     @classmethod
     def from_indexed_fasta(
-        cls, fasta_path: Union[str, os.PathLike], chromsizes: Mapping[str, int]
+        cls, fasta_path: Union[str, os.PathLike], chromsizes: Mapping[str, int], fillchar: str = "N"
     ) -> Self:
         indexed_fasta = NewIndexedFasta(fasta_path, chromsizes, fillchar)
         return cls(indexed_fasta)
@@ -223,7 +220,7 @@ class IndexedFasta:
         self.fasta_path = fasta_path
         self.chromsizes = chromsizes
         if not len(fillchar) == 1:
-            raise ValueError(f"<fillchar> should be a character of length 1.")
+            raise ValueError("<fillchar> should be a character of length 1.")
         self.fillchar = fillchar
 
     def __repr__(self):
